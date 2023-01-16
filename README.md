@@ -1,3 +1,7 @@
+# this is needed to call relative path local libraries when you open the notebook
+env PYTHONPATH=`pwd` jupyter notebook
+
+
 # ml-technical-analysis
 machine learning technical analysis for equities
 
