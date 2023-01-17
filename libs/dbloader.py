@@ -4,52 +4,58 @@ import pandas as pd, yfinance as yf, sqlite3, collector
 #Operations centered around loading data into a sqlite database
 #*******************
 
-def load_db(portfolio: list, period: str = "1y"):
-
-#set up database
+def initialize_db():
     con = sqlite3.connect('portfolio.db')
     c = con.cursor()
 
-    #create price table
-    create_price_table_query = """CREATE TABLE IF NOT EXISTS prices (
+        
+    #create stocks table
+    create_stocks_table = """CREATE TABLE IF NOT EXISTS stocks (
         Date TEXT NOT NULL,
         ticker TEXT NOT NULL,
-        price REAL,
-        PRIMARY KEY(Date, ticker)
-        )"""
-    
-    #create volume table
-    create_volume_table_query = """CREATE TABLE IF NOT EXISTS volume(
-        Date TEXT NOT NULL,
-        ticker TEXT NOT NULL,
-        volume REAL,
+        open REAL,
+        close REAL,
+        volume, REAL
         PRIMARY KEY(Date, ticker)
         )"""
 
-    c.execute(create_price_table_query.replace('\n',' '))
-    c.execute(create_volume_table_query.replace('\n',' '))
+    #create persona table
+    create_persona_table = """CREATE TABLE IF NOT EXISTS persona (
+        persona_name TEXT NOT NULL,
+        description TEXT,
+        PRIMARY KEY(persona_name)
+        )"""    
 
-    stocks = collector.get_yfinance_stocks(portfolio,period)
-    
-    adj_close = stocks['Adj Close']
-    volume = stocks['Volume']
+    #create trade_history table
+    create_trade_history = """CREATE TABLE IF NOT EXISTS trade_history (
+        buy_date TEXT NOT NULL,
+        ticker TEXT NOT NULL,
+        persona_name TEXT NOT NULL,
+        sell_date TEXT,
+        buy_price REAL,
+        sell_price REAL,
+        PRIMARY KEY(persona_name, ticker,buy_date)
+        )"""    
 
-    # convert wide to long
-    adj_close_long = pd.melt(adj_close.reset_index(), id_vars='Date', value_vars=portfolio, var_name ="ticker", value_name="price")
-    volume_long = pd.melt(volume.reset_index(), id_vars='Date', value_vars=portfolio, var_name = "ticker", value_name = "volume")
 
-    adj_close_long.to_sql('prices', con, if_exists='append', index=False)
-    volume_long.to_sql('volume', con, if_exists='append', index=False)
+    c.execute(create_stocks_table.replace('\n',' '))
+    c.execute(create_persona_table.replace('\n',' '))
+    c.execute(create_trade_history.replace('\n',' '))
+
+
+def load_stocks(stocks: list, period: str = "1y"):
+
+    stocks = collector.get_yfinance_stocks(stocks,period)
 
 
 def get_prices():
     # construct query
     select_query = """
-    select * from prices
+    select * from stocks
     """
     c.execute(select_query.replace('\n',' '))
     
-    result = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'price'])
+    result = pd.DataFrame(c.fetchall(), columns = ['Date', 'ticker', 'close'])
     # convert to datetime
     result['Date'] = pd.to_datetime(result['Date'])
 
@@ -57,13 +63,19 @@ def get_prices():
 
 def drop_tables():
     # construct query
-    drop_query1 = """
-    DROP TABLE prices
+    drop_stocks = """
+    DROP TABLE stocks
     """
 
-    drop_query2 = """
-    DROP TABLE prices
+    drop_persona = """
+    DROP TABLE persona
     """
-    c.execute(drop_query1.replace('\n',' '))
-    c.execute(drop_query2.replace('\n',' '))
+
+    drop_trade_history = """
+    DROP TABLE trade_history
+    """
+    c.execute(drop_stocks.replace('\n',' '))
+    c.execute(drop_persona.replace('\n',' '))
+    c.execute(drop_trade_history.replace('\n',' '))
+
     return
