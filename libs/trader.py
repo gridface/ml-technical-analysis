@@ -6,19 +6,13 @@ import sqlite3
 from datetime import datetime
 
 #create a python function that updates a user in a database
-def update_persona(persona_name, description):
-    #optimize by passing the c variable into the function and initialize the db once
-    con = sqlite3.connect('portfolio.db')
-    c = con.cursor()
+def update_persona(c, persona_name, description):
 
     c.execute("UPDATE persona SET description = ? WHERE persona_name = ?", (persona_name, description))
     msg = c.rowcount + " row was updated."
     return msg
   
-def delete_persona(persona_name):
-    #optimize by passing the c variable into the function and initialize the db once
-    con = sqlite3.connect('portfolio.db')
-    c = con.cursor()
+def delete_persona(c, persona_name):
 
     c.execute("DELETE FROM persona WHERE persona_name = ?", (persona_name))
 
@@ -26,10 +20,7 @@ def delete_persona(persona_name):
     return msg
 
 #create a python function that will return a dictionary object of a user from a database
-def get_persona(persona_name):
-
-    con = sqlite3.connect('portfolio.db')
-    c = con.cursor()
+def get_persona(c, persona_name):
 
     # query the database for the user with the given id
     persona = c.query('SELECT * FROM users WHERE persona_name = ?', [persona_name])
@@ -42,10 +33,7 @@ def get_persona(persona_name):
 
     return persona_dict
 
-def buy_stock(ticker,buy_price, persona_name):
-
-    con = sqlite3.connect('portfolio.db')
-    c = con.cursor()
+def buy_stock(c,ticker,buy_price, persona_name):
 
     buy_date = datetime.now()
 
@@ -57,10 +45,7 @@ def buy_stock(ticker,buy_price, persona_name):
     msg = c.rowcount + " row was inserted."
     return msg
 
-def sell_stock(ticker,sell_price, persona_name, buy_price):
-
-    con = sqlite3.connect('portfolio.db')
-    c = con.cursor()
+def sell_stock(c, ticker,sell_price, persona_name, buy_price):
 
     sell_date = datetime.now()
 
@@ -70,10 +55,7 @@ def sell_stock(ticker,sell_price, persona_name, buy_price):
     msg = c.rowcount + " row was updated."
     return msg
 
-def get_current_portfolio(persona_name):
-
-    con = sqlite3.connect('portfolio.db')
-    c = con.cursor()
+def get_current_portfolio(c, persona_name):
 
     # query the database for the user with the given id
     trade_history = c.query('SELECT * FROM trade_history WHERE persona_name = ?', [persona_name])
