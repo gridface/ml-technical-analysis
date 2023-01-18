@@ -1,7 +1,7 @@
 import pandas as pd, yfinance as yf, sqlite3, collector
 
 #*******************
-#Operations centered around loading data into a sqlite database
+#Operations centered around initializing db and loading stocks into a sqlite database
 #*******************
 
 def initialize_db():

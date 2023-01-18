@@ -1,7 +1,6 @@
 import pandas as pd, yfinance as yf, sqlite3
 
-#*******************
-# Operations for getting data from finance API
+#******************* from finance API
 #*******************
 
 #what period do you want to evaluate?

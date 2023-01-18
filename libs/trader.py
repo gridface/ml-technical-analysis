@@ -1,9 +1,19 @@
 ##*****************
-# Operations to manage trading personas 
+# Operations to manage trading personas and personal portfolios
 ##*****************
 
-import sqlite3
 from datetime import datetime
+
+#create a python function that updates a user in a database
+def create_persona(c, persona_name, description):
+
+    # insert new buy transaction into the table
+    sql = "INSERT INTO persona (persona_name, description) VALUES (%s, %s)"
+    val = (persona_name, description)
+    c.execute(sql,val)
+
+    msg = c.rowcount + " row was inserted."
+    return msg
 
 #create a python function that updates a user in a database
 def update_persona(c, persona_name, description):
@@ -23,7 +33,21 @@ def delete_persona(c, persona_name):
 def get_persona(c, persona_name):
 
     # query the database for the user with the given id
-    persona = c.query('SELECT * FROM users WHERE persona_name = ?', [persona_name])
+    persona = c.query('SELECT * FROM persona WHERE persona_name = ?', [persona_name])
+
+    # create a dictionary object of the user
+    persona_dict = {
+        'persona_name': persona['persona_name'],
+        'description': persona['description']
+    }
+
+    return persona_dict
+
+#create a python function that will return a dictionary object of a user from a database
+def get_all_personas(c):
+
+    # query the database for the user with the given id
+    persona = c.query('SELECT * FROM persona')
 
     # create a dictionary object of the user
     persona_dict = {

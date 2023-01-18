@@ -1,12 +1,11 @@
 # this is needed to call relative path local libraries when you open the notebook
 env PYTHONPATH=`pwd` jupyter notebook
 
-
 # ml-technical-analysis
 machine learning technical analysis for equities
 
 ## Phase 1: ML-TA as a Platform
-The goal is to build out a series of straight-forward technical analysis functions that can be used in ML functions. 
+The goal is to build out a series of straight-forward technical analysis functions that can be used to assist traders and also to be used in ML functions 
 
 ## Phase 2: ML Functions
 The purpose of the ML functionality is to scale out the individual trader's ability to do analysis - both in terms of number of stocks analyzed and number of inidicators used.
