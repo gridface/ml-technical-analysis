@@ -1,0 +1,61 @@
+### Stock Portfolios By Type
+- growth
+    - AMZN
+    - CEG
+    - CSGP
+    - GOOGL
+    - HAL
+    - LLY
+    - MTCH
+    - RMD
+    - TMUS
+    - URI   
+- conservative - low volatility
+    - DIS
+    - JNJ
+    - PG
+    - SBUX
+    - AAPL
+    - JPM
+    - HD
+    - XOM
+    - BAC
+    - KO
+- value
+    - CF
+    - CFG
+    - EXC
+    - JPM
+    - MTB
+    - TMUS
+    - URI
+    - WBD
+    - WDC
+    - NVR
+- small cap - less than 10b but still on sp500
+    - WRK
+    - AOS
+    - UHS
+    - HII
+    - HAS
+    - CMA
+    - AAP
+    - FRT
+    - IVZ
+    - FFIV
+- dividend
+    - VFC
+    - DVN
+    - DOW
+    - IBM
+    - VZ
+    - T
+    - INTC
+    - PM
+    - WBA
+    - MMM
+- aggressive - high volatility
+- swing trader
+- mutual funds
+- index
+

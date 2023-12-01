@@ -1,5 +1,5 @@
 ##*****************
-# Operations to manage trading personas and personal portfolios
+# DB Operations to manage trading personas and personal portfolios
 ##*****************
 
 from datetime import datetime
@@ -47,7 +47,7 @@ def get_persona(c, persona_name):
 def get_all_personas(c):
 
     # query the database for the user with the given id
-    persona = c.query('SELECT * FROM persona')
+    persona = c.execute('SELECT * FROM persona')
 
     # create a dictionary object of the user
     persona_dict = {
